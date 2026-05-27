@@ -8,7 +8,9 @@ export default function AuditResults({ audit, onSave, auditId }) {
   const { totalCurrentSpend, monthlySavings, annualSavings, recommendations, isOptimal, summary } = audit;
   const showCredexPromo = monthlySavings > 500;
 
-  const shareableLink = auditId ? `${window.location.origin}/audit/${auditId}` : null;
+  const shareableLink = auditId
+    ? `${window.location.origin}/audit/${auditId}${window.location.hash}`
+    : null;
 
   const copyShareableLink = () => {
     navigator.clipboard.writeText(shareableLink);

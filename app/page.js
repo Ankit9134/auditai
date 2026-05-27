@@ -20,28 +20,19 @@ export default function Home() {
     try {
       const result = auditSpend(formData);
       setAuditResult(result);
-      setIsSaving(true);
-      try {
-        const response = await fetch('/api/audit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ formData, result })
-        });
-        const data = await response.json();
-        if (data.id) {
-          setAuditId(data.id);
-          sessionStorage.setItem(`audit_${data.id}`, JSON.stringify(result));
-          window.history.pushState({}, '', `/audit/${data.id}`);
-          toast.success('Audit complete! Share your results!', { id: loadingToast });
-        } else {
-          toast.success('Audit complete!', { id: loadingToast });
-        }
-      } catch (saveError) {
-        console.error('Failed to save audit:', saveError);
-        toast.success('Audit complete!', { id: loadingToast });
-      } finally {
-        setIsSaving(false);
-      }
+
+      // Encode result into URL hash — no server/DB needed
+      const encoded = btoa(encodeURIComponent(JSON.stringify(result)));
+      const id = encoded.slice(0, 10); // short ID for display
+      setAuditId(id);
+
+      // Store full data in sessionStorage keyed by short id
+      sessionStorage.setItem(`audit_${id}`, JSON.stringify(result));
+      // Also store full encoded in hash-based key for cross-tab sharing
+      sessionStorage.setItem(`audit_encoded_${id}`, encoded);
+
+      window.history.pushState({}, '', `/audit/${id}#${encoded}`);
+      toast.success('Audit complete! Share your results!', { id: loadingToast });
       setStep('results');
     } catch (error) {
       console.error('Audit failed:', error);

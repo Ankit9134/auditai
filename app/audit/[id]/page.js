@@ -10,18 +10,24 @@ export default function SharedAuditPage({ params }) {
   const [auditId, setAuditId] = useState(null);
 
   useEffect(() => {
-    const unwrapParams = async () => {
+    const load = async () => {
       const resolvedParams = await params;
-      setAuditId(resolvedParams.id);
-    };
-    unwrapParams();
-  }, [params]);
+      const id = resolvedParams.id;
+      setAuditId(id);
 
-  useEffect(() => {
-    if (!auditId) return;
+      // 1. Try URL hash (works for shared links — no server needed)
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        try {
+          const decoded = JSON.parse(decodeURIComponent(atob(hash)));
+          setAudit(decoded);
+          setLoading(false);
+          return;
+        } catch {}
+      }
 
-    const fetchAudit = async () => {
-      const cached = sessionStorage.getItem(`audit_${auditId}`);
+      // 2. Try sessionStorage (same browser)
+      const cached = sessionStorage.getItem(`audit_${id}`);
       if (cached) {
         try {
           setAudit(JSON.parse(cached));
@@ -30,30 +36,27 @@ export default function SharedAuditPage({ params }) {
         } catch {}
       }
 
-      // 2. Fallback to API
-      try {
-        const response = await fetch(`/api/audit?id=${auditId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setAudit(data.audit);
-        }
-      } catch (error) {
-        console.error('Failed to load audit:', error);
-      } finally {
-        setLoading(false);
+      // 3. Try reconstructing from stored encoded
+      const encoded = sessionStorage.getItem(`audit_encoded_${id}`);
+      if (encoded) {
+        try {
+          const decoded = JSON.parse(decodeURIComponent(atob(encoded)));
+          setAudit(decoded);
+          setLoading(false);
+          return;
+        } catch {}
       }
+
+      setLoading(false);
     };
 
-    fetchAudit();
-  }, [auditId]);
+    load();
+  }, [params]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="animate-spin text-blue-600 mx-auto mb-4" size={32} />
-          <p className="text-gray-600">Loading audit results...</p>
-        </div>
+        <Loader2 className="animate-spin text-blue-600" size={32} />
       </div>
     );
   }
@@ -64,7 +67,7 @@ export default function SharedAuditPage({ params }) {
         <div className="text-center">
           <FileX size={48} className="text-gray-400 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Audit Not Found</h1>
-          <p className="text-gray-600">This audit report doesn't exist or has been removed.</p>
+          <p className="text-gray-600">This link may be incomplete. Try sharing the full URL including the # part.</p>
           <a href="/" className="inline-flex items-center gap-1.5 mt-4 text-blue-600 hover:text-blue-700">
             <ArrowLeft size={16} /> Start a new audit
           </a>
