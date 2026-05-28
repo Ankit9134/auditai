@@ -4,17 +4,13 @@ A free tool that helps startups and engineering teams optimize their AI tool spe
 
 ## Screenshots
 
-### Dashboard
-![Dashboard](./public/Screenshot%202026-05-28%20124706.png)
+!(./public/Screenshot%202026-05-28%20124706.png)
 
-### Spend Breakdown
-![Spend Breakdown](./public/Screenshot%202026-05-28%20124719.png)
+!(./public/Screenshot%202026-05-28%20124719.png)
 
-### Team Insights
-![Team Insights](./public/Screenshot%202026-05-28%20124744.png)
+!(./public/Screenshot%202026-05-28%20124744.png)
 
-### Recommendations
-![Recommendations](./public/Screenshot%202026-05-28%20124808.png)
+!(./public/Screenshot%202026-05-28%20124808.png)
 
 ## Quick Start
 
