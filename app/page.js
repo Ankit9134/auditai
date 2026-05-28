@@ -21,14 +21,12 @@ export default function Home() {
       const result = auditSpend(formData);
       setAuditResult(result);
 
-      // Encode result into URL hash — no server/DB needed
+      // Short random ID for URL, full data only in hash
+      const id = Math.random().toString(36).slice(2, 10);
       const encoded = btoa(encodeURIComponent(JSON.stringify(result)));
-      const id = encoded.slice(0, 10); // short ID for display
       setAuditId(id);
 
-      // Store full data in sessionStorage keyed by short id
       sessionStorage.setItem(`audit_${id}`, JSON.stringify(result));
-      // Also store full encoded in hash-based key for cross-tab sharing
       sessionStorage.setItem(`audit_encoded_${id}`, encoded);
 
       window.history.pushState({}, '', `/audit/${id}#${encoded}`);
@@ -83,8 +81,14 @@ export default function Home() {
           </div>
         )}
         {step === 'results' && auditResult && (
-          <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-            <AuditResults audit={auditResult} onSave={handleSave} auditId={auditId} />
+          <div>
+            <div className="mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Your Audit Results</h2>
+              <p className="text-sm text-gray-500 mt-0.5">Based on your current AI tool stack</p>
+            </div>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
+              <AuditResults audit={auditResult} onSave={handleSave} auditId={auditId} />
+            </div>
           </div>
         )}
         {step === 'capture' && (

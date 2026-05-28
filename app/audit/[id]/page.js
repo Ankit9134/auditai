@@ -77,22 +77,30 @@ export default function SharedAuditPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="flex items-center gap-2 mb-6">
-          <ScanLine size={20} className="text-blue-600" />
-          <span className="font-bold text-gray-900">SpendScanAI</span>
-        </div>
-        <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
-          <div className="text-center mb-8">
-            <div className="inline-block bg-blue-100 rounded-full px-4 py-1 mb-4">
-              <span className="text-blue-800 text-sm font-medium">Shared Audit Report</span>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Spend Audit Results</h1>
-            <p className="text-gray-600">Check out these savings opportunities</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-100 sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ScanLine size={20} className="text-blue-600" />
+            <span className="font-bold text-gray-900">SpendScanAI</span>
           </div>
+          <span className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full font-medium">Shared Report</span>
+        </div>
+      </header>
+
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">AI Spend Audit Results</h1>
+          <p className="text-gray-500 text-sm mt-1">Here are the savings opportunities found for this stack</p>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
           <AuditResults audit={audit} onSave={() => {}} auditId={auditId} />
         </div>
+        <p className="text-center text-sm text-gray-400 mt-6">
+          Want to audit your own stack?{' '}
+          <a href="/" className="text-blue-600 hover:underline">Run a free audit →</a>
+        </p>
       </div>
     </div>
   );

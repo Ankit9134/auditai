@@ -17,7 +17,13 @@ export default function LeadCapture({ auditData, onSuccess }) {
       const response = await fetch('/api/save-audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, company, role, auditData })
+        body: JSON.stringify({
+          email,
+          company,
+          role,
+          auditData,
+          shareableLink: typeof window !== 'undefined' ? window.location.href : null
+        })
       });
       if (response.ok) {
         toast.success('Report saved! Check your email.');

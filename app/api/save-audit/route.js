@@ -5,7 +5,6 @@ import { headers } from 'next/headers';
 const resend = process.env.RESEND_API_KEY 
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
-
 export async function POST(request) {
   try {
     const headersList = await headers();
@@ -17,9 +16,9 @@ export async function POST(request) {
         return Response.json({ error: 'Too many requests' }, { status: 429 });
       }
     }
-    
-    const { email, company, role, auditData } = await request.json();
-    
+    const { email, company, role, auditData, shareableLink } = await request.json();
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://auditai-delta-seven.vercel.app';
+    const link = shareableLink || (auditData?.auditId ? `${baseUrl}/audit/${auditData.auditId}` : null);
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
       try {
         const { data, error } = await supabase
@@ -72,7 +71,7 @@ export async function POST(request) {
                   `<p>📧 We'll notify you when new optimizations are available for your stack.</p>`
                 }
                 <hr />
-                <p>View your full report: <a href="${process.env.NEXT_PUBLIC_APP_URL}/audit/${auditData.auditId}">${process.env.NEXT_PUBLIC_APP_URL}/audit/${auditData.auditId}</a></p>
+                <p>View your full report: <a href="${link || '#'}">${link || 'See results above'}</a></p>
                 <p>— The AI Spend Audit Team</p>
               </div>
             </body>
