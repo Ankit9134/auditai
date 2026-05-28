@@ -4,7 +4,7 @@ A free tool that helps startups and engineering teams optimize their AI tool spe
 
 ## Screenshots
 
-[Include 3 screenshots here]
+[https://github.com/Ankit9134/auditai/blob/main/public/Screenshot%202026-05-28%20124706.png]
 
 ## Quick Start
 
