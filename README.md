@@ -4,13 +4,22 @@ A free tool that helps startups and engineering teams optimize their AI tool spe
 
 ## Screenshots
 
-(https://github.com/Ankit9134/auditai/blob/main/public/Screenshot%202026-05-28%20124706.png)
-(https://github.com/Ankit9134/auditai/blob/main/public/Screenshot%202026-05-28%20124719.png)
-(https://github.com/Ankit9134/auditai/blob/main/public/Screenshot%202026-05-28%20124744.png)
-(https://github.com/Ankit9134/auditai/blob/main/public/Screenshot%202026-05-28%20124808.png)
+### Dashboard
+![Dashboard](./public/Screenshot%202026-05-28%20124706.png)
+
+### Spend Breakdown
+![Spend Breakdown](./public/Screenshot%202026-05-28%20124719.png)
+
+### Team Insights
+![Team Insights](./public/Screenshot%202026-05-28%20124744.png)
+
+### Recommendations
+![Recommendations](./public/Screenshot%202026-05-28%20124808.png)
 
 ## Quick Start
 
 ### Install dependencies
+
 ```bash
 npm install
+```
